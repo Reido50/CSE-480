@@ -8,13 +8,18 @@ class Table:
         pass
     
     def select(self, columns_to_display, columns_to_order_by):
+        # Sort contents
+        for i in range(len(columns_to_order_by) - 1, -1, -1):
+            self.contents = sorted(self.contents, key = lambda l: l[columns_to_order_by[i]])
+
+        # Select contents
         selected = []
         for row in self.contents:
             selected_row = []
-            for label in columns_to_display:
-                selected_row.append(row[label])
+            for select_label in columns_to_display:
+                selected_row.append(row[select_label])
             selected.append(selected_row)
-        
+        return selected
         pass
 
 table_1 = Table()
@@ -29,3 +34,5 @@ result = table_1.select(
     columns_to_order_by = ["name", "age"])
 
 expected = [[3.5, 29, 'Emily'], [2.0, 20, 'Josh'], [3.0, 30, 'Josh'], [3.0, 31, 'Josh']]
+
+print(result)
