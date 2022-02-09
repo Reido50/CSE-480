@@ -22,6 +22,16 @@ class Table:
         return selected
         pass
 
+    def left_outer_join(self, other_table, self_on_column, other_on_column):
+        joined = Table()
+
+        for self_val in self.select([self_on_column], []):
+            for other_val in other_table.select([other_on_column], []):
+                if self_val == other_val:
+                    joined.insert_into()
+        pass
+
+
 table_1 = Table()
 
 table_1.insert_into(row = {"name": "Josh", "grade": 3.0, "age": 31, "eye": "brown"})
