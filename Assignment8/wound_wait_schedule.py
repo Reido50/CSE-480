@@ -22,7 +22,7 @@ class Action:
 # Do not modify any code above this line
 
 
-def wait_die_scheduler(actions):
+def wound_wait_scheduler(actions):
     # Initialize the empty schedule
     schedule = []
     transactions = {}
@@ -46,17 +46,11 @@ def wait_die_scheduler(actions):
                     if locks[attempt.object_] == attempt.transaction:
                         schedule.append(attempt)
                     elif timestamp[attempt.transaction] < timestamp[locks[attempt.object_]]:
+                        # Wound
+                        print("WOUND")
+                    else:
                         # Wait
                         schedule.append(Action("NA", attempt.transaction, "WAIT"))
-                        continue
-                    else:
-                        # Die
-                        schedule.append(Action("NA", attempt.transaction, "ROLLBACK"))
-                        for item in locks.items():
-                            if item[1] == attempt.transaction:
-                                locks[item[0]] = None
-                                schedule.append(Action(item[0], item[1], "UNLOCK"))
-                        current_index_in_transaction[key] = 0
                         continue
                 else:
                     # If the item is not locked
@@ -99,8 +93,10 @@ def wait_die_scheduler(actions):
 
 actions = [
       Action(object_="A", transaction="pear", type_="WRITE"),
+      Action(object_="B", transaction="apple", type_="WRITE"),
       Action(object_="B", transaction="pear", type_="WRITE"),
-      Action(object_="B", transaction="pear", type_="WRITE"),
+      Action(object_="A", transaction="apple", type_="WRITE"),
+      Action(object_="NA", transaction="apple", type_="COMMIT"),
       Action(object_="NA", transaction="pear", type_="COMMIT"),
       ]
-pprint(wait_die_scheduler(actions))
+pprint(wound_wait_scheduler(actions))
