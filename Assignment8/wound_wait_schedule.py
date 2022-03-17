@@ -47,7 +47,17 @@ def wound_wait_scheduler(actions):
                         schedule.append(attempt)
                     elif timestamp[attempt.transaction] < timestamp[locks[attempt.object_]]:
                         # Wound
-                        print("WOUND")
+                        Ti = attempt.transaction
+                        Tj = locks[attempt.object_]
+                        schedule.append(Action("NA", Tj, "ROLLBACK"))
+                        current_index_in_transaction[Tj] = 0
+                        for item in locks.items():
+                            if item[1] == Tj:
+                                locks[item[0]] = None
+                                schedule.append(Action(item[0], item[1], "UNLOCK"))
+                        schedule.append(Action(attempt.object_, Ti, "LOCK"))
+                        locks[attempt.object_] = Ti
+                        schedule.append(Action(attempt.object_, Ti, "WRITE"))
                     else:
                         # Wait
                         schedule.append(Action("NA", attempt.transaction, "WAIT"))
@@ -94,9 +104,16 @@ def wound_wait_scheduler(actions):
 actions = [
       Action(object_="A", transaction="pear", type_="WRITE"),
       Action(object_="B", transaction="apple", type_="WRITE"),
-      Action(object_="B", transaction="pear", type_="WRITE"),
+      Action(object_="C", transaction="carrot", type_="WRITE"),
+      Action(object_="B", transaction="apple", type_="WRITE"),
+      Action(object_="C", transaction="apple", type_="WRITE"),
       Action(object_="A", transaction="apple", type_="WRITE"),
       Action(object_="NA", transaction="apple", type_="COMMIT"),
+      Action(object_="B", transaction="carrot", type_="WRITE"),
+      Action(object_="B", transaction="pear", type_="WRITE"),
       Action(object_="NA", transaction="pear", type_="COMMIT"),
+      Action(object_="NA", transaction="carrot", type_="COMMIT"),
+      Action(object_="Q", transaction="lemon", type_="WRITE"),
+      Action(object_="NA", transaction="lemon", type_="COMMIT"),
       ]
 pprint(wound_wait_scheduler(actions))
