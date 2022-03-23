@@ -23,8 +23,13 @@ def populate_closure(list_of_fds, attribute_set):
     next_closure = closure
     while True:
         for fd in list_of_fds:
-            if fd.left_attributes_set in next_closure:
-                next_closure.append(fd.right_attributes_set)
+            allIn = True
+            for attrib in fd.left_attributes_set:
+                if attrib not in next_closure:
+                    allIn = False
+                    break
+            if allIn:
+                next_closure = next_closure.union(fd.right_attributes_set)
         if next_closure == closure:
             break
         closure = next_closure
@@ -39,7 +44,9 @@ def is_key(all_attributes, list_of_fds, attribute_set):
     # Is it not the key?
     for L in range(0, len(attribute_set) + 1):
         for perm in itertools.permutations(attribute_set, L):
-            perm_closure = populate_closure(list_of_fds, perm)
+            if set(perm) == attribute_set:
+                continue
+            perm_closure = populate_closure(list_of_fds, set(perm))
             if perm_closure == all_attributes:
                 return False
     # It must be the key
