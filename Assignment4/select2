@@ -1,0 +1,7 @@
+Write a SQL query that returns the genres that have at least one track of 
+that genre (order alphabetically).
+
+SELECT Genre.name FROM Genre
+LEFT OUTER JOIN Track ON Genre.GenreId = Track.GenreId
+GROUP BY Genre.name HAVING count() > 1
+ORDER BY Genre.name;

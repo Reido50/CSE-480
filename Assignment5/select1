@@ -1,0 +1,18 @@
+Write a query that can tell me the names of the artists with the largest tracks in the 
+database. For each artist, get their largest track (in Bytes) and have the query return 
+the top ten largest tracks sizes and their artist (make the artist’s name in ALL CAPS). 
+Be sure to use aliases to adjust the column names as UPPER_NAME and MEMORY_SIZE.
+
+
+SELECT upper(Artist.Name) as 'UPPER_NAME', Track.Bytes as 'MEMORY_SIZE'
+FROM 
+Artist
+LEFT OUTER JOIN
+Album ON Artist.ArtistId = Album.ArtistId
+LEFT OUTER JOIN
+Track ON Album.AlbumId = Track.AlbumId
+WHERE Track.Bytes IS NOT NULL
+GROUP BY UPPER_NAME
+HAVING MEMORY_SIZE = max(MEMORY_SIZE)
+ORDER BY MEMORY_SIZE DESC
+LIMIT 10;

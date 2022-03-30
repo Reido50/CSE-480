@@ -1,0 +1,12 @@
+My name is Jimmy Olsen and I’ve been tasked by the
+Daily Planet to determine all the powers that the
+various super heroes have. I need to output a list
+of super heroes and their powers
+(ordered by super hero name, then by the power’s name).
+The database also includes the super heroes with no known powers,
+and they should be in the list as well.
+
+SELECT supers.name as Super, powers.name as Power FROM supers
+LEFT OUTER JOIN powers
+ON id = super_id
+ORDER BY Super, Power;

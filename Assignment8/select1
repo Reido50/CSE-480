@@ -1,0 +1,16 @@
+Write a query that returns the Genres that I have purchased the most tracks of. 
+I only care about genres that I’ve purchased at least 10 tracks of. Please ignore 
+any tracks costing a dollar or more (they are primarily TV shows). Please output 
+two columns, the name of the genre (“Genre_Name”) and the number of tracks purchased 
+(“Number_Purchased”). You may order your rows however you like.
+
+SELECT Genre.Name AS Genre_Name, count() as Number_Purchased
+FROM InvoiceLine
+  LEFT OUTER JOIN Track
+  ON InvoiceLine.TrackId = Track.TrackId
+  LEFT OUTER JOIN Genre 
+  ON Track.GenreId = Genre.GenreId
+WHERE Track.UnitPrice < 1
+GROUP BY Track.GenreId
+HAVING count() > 9
+ORDER BY Number_Purchased DESC;

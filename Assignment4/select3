@@ -1,0 +1,5 @@
+Write a SQL query that returns the number of tracks for each UnitPrice. Order by ascending price.
+
+SELECT UnitPrice, count() FROM Track
+GROUP BY UnitPrice
+ORDER BY UnitPrice;

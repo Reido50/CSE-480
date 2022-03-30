@@ -1,0 +1,1 @@
+SELECT Title, ArtistId FROM Album ORDER BY Title, AlbumId;

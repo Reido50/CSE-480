@@ -1,0 +1,12 @@
+I want the name of the artist and tracks, for the tracks on album that have the 
+same name as the artist. Order by track name.
+
+SELECT ar.Name, tr.Name
+FROM Artist as ar 
+INNER JOIN 
+Album as al
+ON ar.ArtistId = al.ArtistId and ar.Name = al.Title
+INNER JOIN
+Track as tr
+ON al.AlbumID = tr.AlbumID
+ORDER BY tr.Name

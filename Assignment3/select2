@@ -1,0 +1,5 @@
+Write a SQL query that returns the Albums title that start with “B” and their Artist’s 
+name. Order by title alphabetically.
+
+SELECT Title, Name FROM Album INNER JOIN Artist ON Album.ArtistId = Artist.ArtistId 
+WHERE Title LIKE 'B%' ORDER BY Title

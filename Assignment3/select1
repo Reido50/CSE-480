@@ -1,0 +1,5 @@
+My employer gets a tax write-off for all employees that are Michigan (their state being “MI”) 
+residents. So I need to assemble a list of employees from Michigan (as well as, the employees 
+that I don’t know what state they are from (their state being NULL).
+
+SELECT FirstName, State FROM Employee WHERE State = "MI" OR State IS NULL ORDER BY FirstName

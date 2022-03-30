@@ -1,0 +1,4 @@
+CREATE TABLE grades (term TEXT, grade REAL, netid TEXT, name TEXT);
+INSERT INTO grades VALUES ('FS20', 3.0, 'dennisp', 'Dennis');
+INSERT INTO grades VALUES ('FS20', 3.5, 'dog', 'Sadie');
+INSERT INTO grades VALUES ('FS20', 4.0, 'bonbon', 'Bonnie');
